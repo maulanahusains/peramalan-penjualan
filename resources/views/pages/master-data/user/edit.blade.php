@@ -25,9 +25,9 @@
     <div class="form-group">
         <label for="">Level</label>
         <select name="level" class="form-control">
-            <option value="Admin" {{ $user->level == 'Admin' ? 'selected' : '' }}>Admin</option>
-            <option value="Superadmin" {{ $user->level == 'Superadmin' ? 'selected' : '' }}>Superadmin</option>
-            <option value="Owner" {{ $user->level == 'Owner' ? 'selected' : '' }}>Owner</option>
+            <option value="admin" {{ $user->level == 'admin' ? 'selected' : '' }}>Admin</option>
+            <option value="superadmin" {{ $user->level == 'superadmin' ? 'selected' : '' }}>Superadmin</option>
+            <option value="owner" {{ $user->level == 'owner' ? 'selected' : '' }}>Owner</option>
         </select>
         @error('level')
             <span class="text-danger">{{ $message }}</span>

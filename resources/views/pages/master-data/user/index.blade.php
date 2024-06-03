@@ -88,9 +88,9 @@
                         <div class="form-group">
                             <label for="">Level</label>
                             <select name="level" class="form-control">
-                                <option value="Admin">Admin</option>
-                                <option value="Superadmin">Superadmin</option>
-                                <option value="Owner">Owner</option>
+                                <option value="admin">Admin</option>
+                                <option value="superadmin">Superadmin</option>
+                                <option value="owner">Owner</option>
                             </select>
                             @error('level')
                                 <span class="text-danger">{{ $message }}</span>

@@ -1,3 +1,6 @@
+@php
+    $user = Auth::User();
+@endphp
 <div class="iq-sidebar">
     <div class="iq-sidebar-logo d-flex justify-content-between">
         <a href="index.html">
@@ -27,6 +30,7 @@
                         <i class="ri-home-4-line"></i><span>Dashboard</span>
                     </a>
                 </li>
+                @if ($user->level != 'admin')
                 <li class="iq-menu-title"><i class="ri-subtract-line"></i><span>Data</span></li>
                 <li>
                     <a href="#master-data" class="iq-waves-effect {{ Route::is('kelola.*.index') ? '' : 'collapsed' }}"
@@ -54,6 +58,7 @@
                         </li>
                     </ul>
                 </li>
+                @endif
                 <li class="iq-menu-title"><i class="ri-subtract-line"></i><span>Pengelolaan</span></li>
                 <li>
                     <a href="" class="iq-waves-effect">
