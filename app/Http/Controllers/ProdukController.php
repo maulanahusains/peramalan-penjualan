@@ -36,8 +36,8 @@ class ProdukController extends Controller
         if ($request->hasFile('photo')) {
             $photo = $request->file('photo');
             $photo_name = Str::uuid() . '_' . $photo->getClientOriginalName();
-            $photo->move(public_path('images/upload'), $photo_name);
-            $photo_path = 'images/upload/' . $photo_name;
+            $photo->move(public_path('images/uploads'), $photo_name);
+            $photo_path = 'images/upload/s' . $photo_name;
         }
 
         DB::beginTransaction();

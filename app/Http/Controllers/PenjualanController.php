@@ -174,6 +174,10 @@ class PenjualanController extends Controller
 
         DB::beginTransaction();
         try {
+            $produk = Produk::where('id', $penjualan->kd_produk)->first();
+            $produk->stok = $produk->stok + $penjualan->jumlah_penjualan;
+            $produk->save();
+
             $penjualan->delete();
 
             DB::commit();
