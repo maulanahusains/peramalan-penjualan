@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Penjualan;
 use App\Models\Produk;
+use App\Models\Stok;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -33,12 +34,24 @@ class PenjualanController extends Controller
         ));
     }
 
+    public function get_max_stok_produk($kd_produk)
+    {
+        $stok = Stok::where('kd_produk', $kd_produk)->first();
+        return $stok->stok;
+    }
+
     public function store(Request $request)
     {
-        // todo: tambahin validasi <= stok di jumlah_penjualan
         $validator = Validator::make($request->all(), [
             'kd_produk' => ['required'],
-            'jumlah_penjualan' => ['required'],
+            'jumlah_penjualan' => ['required', function ($attribute, $value, $fail) use ($request) {
+                $maxStok = $this->get_max_stok_produk($request->kd_produk);
+
+                if ($value > $maxStok) {
+                    $fail('Jumlah penjualan melebihi stok yang tersedia.');
+                }
+            }],
+            'tanggal_penjualan' => ['required', 'date'],
             'minggu' => ['required'],
         ]);
 
@@ -48,7 +61,7 @@ class PenjualanController extends Controller
                 ->withErrors($validator->errors());
         }
 
-        $date = new Carbon();
+        $date = new Carbon($request->tanggal_penjualan);
 
         if ($request->minggu == 'nextmo_1') {
             $minggu = 1;
@@ -56,6 +69,34 @@ class PenjualanController extends Controller
             $bulan = $new_date->format('F');
         } else {
             $bulan = $date->format('F');
+        }
+
+        $penjualan = Penjualan::where('tgl_penjualan', date('Y-m-d', strtotime($request->tanggal_penjualan)))
+            ->where('minggu', (isset($minggu)) ? $minggu : $request->minggu)
+            ->first();
+
+        if ($penjualan) {
+            DB::beginTransaction();
+            try {
+                $stok = Stok::where('kd_produk', $penjualan->kd_produk)
+                    ->first();
+                $stok->stok = $stok->stok - $request->jumlah_penjualan;
+                $stok->save();
+
+                $penjualan->jumlah_penjualan += $request->jumlah_penjualan;
+                $penjualan->save();
+
+                DB::commit();
+                return redirect()
+                    ->route('penjualan.index')
+                    ->with('success', 'Sukses Menambah Data!');
+            } catch (\Throwable $th) {
+                //throw $th;
+                DB::rollBack();
+                return redirect()
+                    ->route('penjualan.index')
+                    ->with('error', 'Something went wrong!');
+            }
         }
 
         DB::beginTransaction();
@@ -68,9 +109,9 @@ class PenjualanController extends Controller
             $penjualan->bulan = $bulan;
             $penjualan->save();
 
-            $produk = Produk::where('id', $penjualan->kd_produk)->first();
-            $produk->stok = $produk->stok - $penjualan->jumlah_penjualan;
-            $produk->save();
+            $stok = Stok::where('kd_produk', $penjualan->kd_produk)->first();
+            $stok->stok = $stok->stok - $penjualan->jumlah_penjualan;
+            $stok->save();
 
             DB::commit();
             return redirect()
@@ -120,7 +161,7 @@ class PenjualanController extends Controller
                 ->withErrors($validator->errors());
         }
 
-        $date = new Carbon();
+        $date = new Carbon($penjualan->tgl_penjualan);
 
         if ($request->minggu == 'nextmo_1') {
             $minggu = 1;
@@ -132,10 +173,10 @@ class PenjualanController extends Controller
 
         DB::beginTransaction();
         try {
-            $produk = Produk::where('id', $request->kd_produk)->first();
+            $stok = Stok::where('kd_produk', $request->kd_produk)->first();
 
             if ($request->jumlah_penjualan != $penjualan->jumlah_penjualan) {
-                $stok_semula = $produk->stok + $penjualan->jumlah_penjualan;
+                $stok_semula = $stok->stok + $penjualan->jumlah_penjualan;
                 $stok_berubah = $stok_semula - $request->jumlah_penjualan;
             }
 
@@ -146,8 +187,8 @@ class PenjualanController extends Controller
             $penjualan->bulan = $bulan;
             $penjualan->save();
 
-            $produk->stok = (isset($stok_berubah)) ? $stok_berubah : $penjualan->jumlah_penjualan;
-            $produk->save();
+            $stok->stok = (isset($stok_berubah)) ? $stok_berubah : $penjualan->jumlah_penjualan;
+            $stok->save();
 
             DB::commit();
             return redirect()
@@ -174,9 +215,9 @@ class PenjualanController extends Controller
 
         DB::beginTransaction();
         try {
-            $produk = Produk::where('id', $penjualan->kd_produk)->first();
-            $produk->stok = $produk->stok + $penjualan->jumlah_penjualan;
-            $produk->save();
+            $stok = Stok::where('kd_produk', $penjualan->kd_produk)->first();
+            $stok->stok = $stok->stok + $penjualan->jumlah_penjualan;
+            $stok->save();
 
             $penjualan->delete();
 

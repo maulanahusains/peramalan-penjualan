@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Penjualan - @yield('title')</title>
     <!-- Favicon -->
-    <link rel="shortcut icon" href="images/favicon.ico" />
+    <link rel="shortcut icon" href="images/logo-nobg.ico" />
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
     <!-- Chart list Js -->
@@ -99,8 +99,8 @@
                         <li>
                             <a href="#"
                                 class="search-toggle iq-waves-effect d-flex align-items-center bg-primary rounded">
-                                <img src="{{ asset('images/user/1.jpg') }}" class="img-fluid rounded mr-3"
-                                    alt="user">
+                                {{-- <img src="{{ asset('images/user/1.jpg') }}" class="img-fluid rounded mr-3"
+                                    alt="user"> --}}
                                 <div class="caption">
                                     <h6 class="mb-0 line-height text-white">
                                         {{ Auth::user() ? Auth::User()->username : '' }}</h6>
@@ -110,11 +110,11 @@
                             <div class="iq-sub-dropdown iq-user-dropdown">
                                 <div class="iq-card shadow-none m-0">
                                     <div class="iq-card-body p-0 ">
-                                        <div class="bg-primary p-3">
+                                        {{-- <div class="bg-primary p-3">
                                             <h5 class="mb-0 text-white line-height">Hello
                                                 {{ Auth::user() ? Auth::User()->username : '' }}</h5>
-                                            {{-- <span class="text-white font-size-12">Available</span> --}}
-                                        </div>
+                                            <span class="text-white font-size-12">Available</span>
+                                        </div> --}}
                                         {{-- <a href="profile.html" class="iq-sub-card iq-bg-primary-hover">
                                             <div class="media align-items-center">
                                                 <div class="rounded iq-card-icon iq-bg-primary">

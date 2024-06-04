@@ -10,6 +10,18 @@
         @enderror
     </div>
     <div class="form-group">
+        <label for="">Supplier</label>
+        <select name="supplier" id="" class="form-control">
+            @foreach ($supplier as $item)
+                <option value="{{ $item->id }}" {{ $item->id == $produk->kd_supplier ? 'selected' : '' }}>
+                    {{ $item->nama_supplier }}</option>
+            @endforeach
+        </select>
+        @error('supplier')
+            <span class="text-danger">{{ $message }}</span>
+        @enderror
+    </div>
+    <div class="form-group">
         <label for="">Deskripsi</label>
         <input type="text" name="deskripsi" class="form-control" placeholder="Masukkan Data!"
             value="{{ $produk->deskripsi }}">
@@ -21,14 +33,6 @@
         <label for="">Photo</label>
         <input type="file" name="photo" class="form-control" placeholder="Masukkan Data!">
         @error('photo')
-            <span class="text-danger">{{ $message }}</span>
-        @enderror
-    </div>
-    <div class="form-group">
-        <label for="">Stok</label>
-        <input type="text" name="stok" class="form-control number" placeholder="Masukkan Data!"
-            value="{{ $produk->stok }}">
-        @error('stok')
             <span class="text-danger">{{ $message }}</span>
         @enderror
     </div>

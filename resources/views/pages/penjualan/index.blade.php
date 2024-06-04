@@ -90,13 +90,23 @@
                             @enderror
                         </div>
                         <div class="form-group">
+                            <label for="">Tanggal Penjualan</label>
+                            <input type="date" name="tanggal_penjualan" id="tanggal_penjualan" class="form-control"
+                                placeholder="Masukkan Data!">
+                            @error('tanggal_penjualan')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
+
+                        <div class="form-group">
                             <label for="">Minggu</label>
-                            <select name="minggu" class="form-control">
+                            <select name="minggu" id="minggu" class="form-control">
                                 @for ($i = 1; $i < 5; $i++)
-                                    <option value="{{ $i }}" {{ $i == $week_of_month ? 'selected' : '' }}>Week
+                                    <option value="{{ $i }}" {{ $i == $week_of_month ? 'selected' : '' }}>
+                                        Minggu
                                         {{ $i }}</option>
                                 @endfor
-                                <option value="nextmo_1">Week 1 Bulan depan</option>
+                                <option value="nextmo_1">Minggu 1 Bulan depan</option>
                             </select>
                             @error('minggu')
                                 <span class="text-danger">{{ $message }}</span>
@@ -138,14 +148,23 @@
 @section('scripts')
 
     <script>
-        function getWeekNumberInMonth(date) {
-            const firstDayOfMonth = new Date(date.getFullYear(), date.getMonth(), 1);
-            const dayOfWeek = firstDayOfMonth.getDay();
-            const adjustedDate = date.getDate() + dayOfWeek - 1;
-            return Math.ceil(adjustedDate / 7);
+        function getWeekOfMonth(date) {
+            let d = new Date(date);
+            let week = d.getDate() / 7 | 0;
+            if (week > 3) {
+                week = 3
+            }
+            return week + 1;
         }
 
         $(document).ready(function() {
+
+            $('#tanggal_penjualan').on('change', function() {
+                let tanggalPenjualan = $(this).val();
+                let minggu = getWeekOfMonth(tanggalPenjualan);
+
+                $('#minggu').val(minggu);
+            });
 
             $('.btn-add').click(function(e) {
                 e.preventDefault();

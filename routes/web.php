@@ -24,7 +24,7 @@ Route::get('/login', [LoginController::class, 'index'])->name('login');
 Route::post('/attempt-login', [LoginController::class, 'login'])->name('postlogin');
 Route::post('/check-reset-password', [LoginController::class, 'check_to_reset_password'])->name('check-reset-password');
 Route::post('/reset-password', [LoginController::class, 'reset_password'])->name('reset-password');
-Route::get('/view-reset-password/{id}', [LoginController::class, 'view_reset_password'])->name('view-reset-password');
+Route::get('/view-reset-password', [LoginController::class, 'view_reset_password'])->name('view-reset-password');
 Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 
 Route::middleware('auth')->group(function () {
@@ -53,6 +53,10 @@ Route::middleware('auth')->group(function () {
             Route::get('/{id}', 'edit')->name('edit');
             Route::post('/update/{id}', 'update')->name('update');
             Route::get('/delete/{id}', 'delete')->name('delete');
+        });
+
+        Route::prefix('stok')->name('stok.')->controller(ProdukController::class)->group(function () {
+            Route::get('/', 'index_stok')->name('index');
         });
     });
 

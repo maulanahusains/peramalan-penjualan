@@ -58,12 +58,12 @@ class LoginController extends Controller
                 ->with('error', 'Username tidak ditemukan!');
         }
         return redirect()
-            ->route('view-reset-password', $user->id);
+            ->route('view-reset-password', ['id' => encrypt($user->id)]);
     }
 
-    public function view_reset_password(Request $request, $id)
+    public function view_reset_password(Request $request)
     {
-        $user = User::where('id', $id)->first();
+        $user = User::where('id', decrypt($request->id))->first();
         $user->encrypted_id = encrypt($user->id);
 
         return view('auth.reset-pass', compact('user'));
@@ -79,7 +79,7 @@ class LoginController extends Controller
         if ($validator->fails()) {
             $user = User::where('id', decrypt($request->id))->first();
             return redirect()
-                ->route('view-reset-password', $user->id)
+                ->route('view-reset-password', ['id' => encrypt($user->id)])
                 ->withErrors($validator->errors());
         }
 

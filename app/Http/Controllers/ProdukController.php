@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Produk;
+use App\Models\Stok;
+use App\Models\Supplier;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
@@ -14,7 +16,14 @@ class ProdukController extends Controller
     public function index()
     {
         $produks = Produk::all();
-        return view('pages.master-data.produk.index', compact('produks'));
+        $supplier = Supplier::all();
+        return view('pages.master-data.produk.index', compact('produks', 'supplier'));
+    }
+
+    public function index_stok()
+    {
+        $stoks = Stok::all();
+        return view('pages.master-data.produk.index_stok', compact('stoks'));
     }
 
     public function store(Request $request)
@@ -22,8 +31,8 @@ class ProdukController extends Controller
         $validator = Validator::make($request->all(), [
             'nama_produk' => ['required'],
             'deskripsi' => ['required'],
+            'supplier' => ['required'],
             'photo' => ['mimes:png,jpg,jpeg'],
-            'stok' => ['required', 'numeric'],
             'harga' => ['required'],
         ]);
 
@@ -44,12 +53,17 @@ class ProdukController extends Controller
         try {
             // todo: nambah bulan & minggu ketika create
             $produk = new Produk;
+            $produk->kd_supplier = $request->supplier;
             $produk->nama_produk = $request->nama_produk;
             $produk->deskripsi = $request->deskripsi;
-            $produk->stok = $request->stok;
             $produk->photo = (isset($photo_path)) ? $photo_path : '';
             $produk->harga = str_replace(",", "", $request->harga);
             $produk->save();
+
+            $stok = new Stok;
+            $stok->kd_produk = $produk->id;
+            $stok->stok = 0;
+            $stok->save();
 
             DB::commit();
             return redirect()
@@ -57,6 +71,7 @@ class ProdukController extends Controller
                 ->with('success', 'Sukses Menambah Data!');
         } catch (\Throwable $th) {
             //throw $th;
+            dd($th);
             DB::rollBack();
             return redirect()
                 ->route('kelola.produk.index')
@@ -67,13 +82,14 @@ class ProdukController extends Controller
     public function edit($id)
     {
         $produk = Produk::where('id', $id)->first();
+        $supplier = Supplier::all();
         if (!$produk) {
             return redirect()
                 ->route('kelola.produk.index')
                 ->with('error', 'Data tidak ditemukan!');
         }
 
-        return view('pages.master-data.produk.edit', compact('produk'));
+        return view('pages.master-data.produk.edit', compact('produk', 'supplier'));
     }
 
     public function update(Request $request, $id)
@@ -89,7 +105,6 @@ class ProdukController extends Controller
         $validator = Validator::make($request->all(), [
             'nama_produk' => ['required'],
             'deskripsi' => ['required'],
-            'stok' => ['required', 'numeric'],
             'harga' => ['required'],
         ]);
 
@@ -113,8 +128,8 @@ class ProdukController extends Controller
         DB::beginTransaction();
         try {
             $produk->nama_produk = $request->nama_produk;
+            $produk->kd_supplier = $request->supplier;
             $produk->deskripsi = $request->deskripsi;
-            $produk->stok = $request->stok;
             $produk->photo = (isset($photo_path)) ? $photo_path : $produk->photo;
             $produk->harga = str_replace(",", "", $request->harga);
             $produk->save();
