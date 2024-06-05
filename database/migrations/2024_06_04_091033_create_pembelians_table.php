@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('kd_produk');
             $table->integer('jumlah_pembelian');
+            $table->bigInteger('harga_satuan');
             $table->date('tgl_pembelian');
             $table->integer('minggu');
             $table->string('bulan');

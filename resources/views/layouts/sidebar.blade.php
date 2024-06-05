@@ -31,70 +31,76 @@
                     </a>
                 </li>
                 @if ($user->level == 'admin' || $user->level == 'superadmin')
-                <li class="iq-menu-title"><i class="ri-subtract-line"></i><span>Data</span></li>
-                <li>
-                    <a href="#master-data" class="iq-waves-effect {{ Route::is('kelola.*.index') ? '' : 'collapsed' }}"
-                        data-toggle="collapse" aria-expanded="{{ Route::is('kelola.*.index') ? 'true' : 'false' }}">
-                        <i class="ri-database-2-line"></i>
-                        <span>Master Data</span>
-                        <i class="ri-arrow-right-s-line iq-arrow-right"></i>
-                    </a>
-                    <ul id="master-data" class="iq-submenu collapse {{ Route::is('kelola.*.index') ? 'show' : '' }}"
-                        data-parent="#iq-sidebar-toggle">
-                        <li class="{{ Route::currentRouteName() == 'kelola.user.index' ? 'active' : '' }}">
-                            <a href="{{ route('kelola.user.index') }}">
-                                <i class="ri-user-add-line"></i>User
-                            </a>
-                        </li>
-                        <li class="{{ Route::currentRouteName() == 'kelola.stok.index' ? 'active' : '' }}">
-                            <a href="{{ route('kelola.stok.index') }}">
-                                <i class="ri-scan-fill"></i>Stok
-                            </a>
-                        </li>
-                        <li class="{{ Route::currentRouteName() == 'kelola.produk.index' ? 'active' : '' }}">
-                            <a href="{{ route('kelola.produk.index') }}">
-                                <i class="ri-funds-box-line"></i>Produk
-                            </a>
-                        </li>
-                        <li class="{{ Route::currentRouteName() == 'kelola.supplier.index' ? 'active' : '' }}">
-                            <a href="{{ route('kelola.supplier.index') }}">
-                                <i class="ri-user-settings-line"></i>Supplier
-                            </a>
-                        </li>
-                    </ul>
-                </li>
+                    <li class="iq-menu-title"><i class="ri-subtract-line"></i><span>Data</span></li>
+                    <li>
+                        <a href="#master-data"
+                            class="iq-waves-effect {{ Route::is('kelola.*.index') ? '' : 'collapsed' }}"
+                            data-toggle="collapse" aria-expanded="{{ Route::is('kelola.*.index') ? 'true' : 'false' }}">
+                            <i class="ri-database-2-line"></i>
+                            <span>Master Data</span>
+                            <i class="ri-arrow-right-s-line iq-arrow-right"></i>
+                        </a>
+                        <ul id="master-data" class="iq-submenu collapse {{ Route::is('kelola.*.index') ? 'show' : '' }}"
+                            data-parent="#iq-sidebar-toggle">
+                            <li class="{{ Route::currentRouteName() == 'kelola.user.index' ? 'active' : '' }}">
+                                <a href="{{ route('kelola.user.index') }}">
+                                    <i class="ri-user-add-line"></i>User
+                                </a>
+                            </li>
+                            <li class="{{ Route::currentRouteName() == 'kelola.stok.index' ? 'active' : '' }}">
+                                <a href="{{ route('kelola.stok.index') }}">
+                                    <i class="ri-scan-fill"></i>Stok
+                                </a>
+                            </li>
+                            <li class="{{ Route::currentRouteName() == 'kelola.produk.index' ? 'active' : '' }}">
+                                <a href="{{ route('kelola.produk.index') }}">
+                                    <i class="ri-funds-box-line"></i>Produk
+                                </a>
+                            </li>
+                            <li class="{{ Route::currentRouteName() == 'kelola.supplier.index' ? 'active' : '' }}">
+                                <a href="{{ route('kelola.supplier.index') }}">
+                                    <i class="ri-user-settings-line"></i>Supplier
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
                 @endif
                 @if ($user->level == 'owner' || $user->level == 'superadmin')
-                <li class="iq-menu-title"><i class="ri-subtract-line"></i><span>Pengelolaan</span></li>
-                <li>
-                    <a href="" class="iq-waves-effect">
-                        <i class="ri-funds-line"></i>
-                        <span>Peramalan</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#jual-beli" class="iq-waves-effect {{ Route::is('penjualan.index') || Route::is('pembelian.index') ? '' : 'collapsed' }}" data-toggle="collapse" aria-expanded="{{ Route::is('penjualan.index') || Route::is('pembelian.index') ? 'true' : 'false' }}">
-                        <i class="ri-database-2-line"></i>
-                        <span>Pembelian & Penjualan</span>
-                        <i class="ri-arrow-right-s-line iq-arrow-right"></i>
-                    </a>
-                    <ul id="jual-beli" class="iq-submenu collapse {{ Route::is('penjualan.index') || Route::is('pembelian.index') ? 'show' : '' }}" data-parent="#iq-sidebar-toggle">
-                        <li class="{{ Route::is('pembelian.index') ? 'active' : '' }}">
-                            <a href=""><i class="ri-user-add-line"></i>Pembelian</a>
-                        </li>
-                        <li class="{{ Route::is('penjualan.index') ? 'active' : '' }}">
-                            <a href="{{ route('penjualan.index') }}"><i class="ri-funds-box-line"></i>Penjualan</a>
-                        </li>
-                    </ul>
-                </li>
+                    <li class="iq-menu-title"><i class="ri-subtract-line"></i><span>Pengelolaan</span></li>
+                    <li>
+                        <a href="" class="iq-waves-effect">
+                            <i class="ri-funds-line"></i>
+                            <span>Peramalan</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#jual-beli"
+                            class="iq-waves-effect {{ Route::is('penjualan.index') || Route::is('pembelian.index') ? '' : 'collapsed' }}"
+                            data-toggle="collapse"
+                            aria-expanded="{{ Route::is('penjualan.index') || Route::is('pembelian.index') ? 'true' : 'false' }}">
+                            <i class="ri-database-2-line"></i>
+                            <span>Pembelian & Penjualan</span>
+                            <i class="ri-arrow-right-s-line iq-arrow-right"></i>
+                        </a>
+                        <ul id="jual-beli"
+                            class="iq-submenu collapse {{ Route::is('penjualan.index') || Route::is('pembelian.index') ? 'show' : '' }}"
+                            data-parent="#iq-sidebar-toggle">
+                            <li class="{{ Route::is('pembelian.index') ? 'active' : '' }}">
+                                <a href="{{ route('pembelian.index') }}"><i class="ri-user-add-line"></i>Pembelian</a>
+                            </li>
+                            <li class="{{ Route::is('penjualan.index') ? 'active' : '' }}">
+                                <a href="{{ route('penjualan.index') }}"><i class="ri-funds-box-line"></i>Penjualan</a>
+                            </li>
+                        </ul>
+                    </li>
                 @endif
                 @if ($user->level == 'admin' || $user->level == 'owner' || $user->level == 'superadmin')
-                <li>
-                    <a href="" class="iq-waves-effect">
-                        <i class="ri-file-chart-line"></i>
-                        <span>Laporan</span>
-                    </a>
-                </li>
+                    <li>
+                        <a href="" class="iq-waves-effect">
+                            <i class="ri-file-chart-line"></i>
+                            <span>Laporan</span>
+                        </a>
+                    </li>
                 @endif
             </ul>
         </nav>
