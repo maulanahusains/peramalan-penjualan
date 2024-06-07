@@ -30,13 +30,6 @@
         @enderror
     </div>
     <div class="form-group">
-        <label for="">Photo</label>
-        <input type="file" name="photo" class="form-control" placeholder="Masukkan Data!">
-        @error('photo')
-            <span class="text-danger">{{ $message }}</span>
-        @enderror
-    </div>
-    <div class="form-group">
         <label for="">Harga</label>
         <input type="text" name="harga" class="form-control currency" placeholder="Masukkan Data!"
             value="{{ number_format($produk->harga, 0, '.') }}">

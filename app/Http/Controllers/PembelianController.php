@@ -8,6 +8,7 @@ use App\Models\Stok;
 use Carbon\Carbon;
 use Illuminate\Auth\Events\Validated;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
@@ -103,6 +104,7 @@ class PembelianController extends Controller
             $pembelian->harga_satuan = str_replace(",", "", $request->harga_satuan);
             $pembelian->minggu = (isset($minggu)) ? $minggu : $request->minggu;
             $pembelian->bulan = $bulan;
+            $pembelian->created_by = Auth::User()->id;
             $pembelian->save();
 
             $stok = Stok::where('kd_produk', $pembelian->kd_produk)->first();

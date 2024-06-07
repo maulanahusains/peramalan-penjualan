@@ -1,31 +1,31 @@
     <?php
 
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Schema;
+    use Illuminate\Database\Migrations\Migration;
+    use Illuminate\Database\Schema\Blueprint;
+    use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
-    /**
-     * Run the migrations.
-     */
-    public function up(): void
+    return new class extends Migration
     {
-        Schema::create('stok_masuks', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('kd_produk');
-            $table->unsignedBigInteger('kd_supplier');
-            $table->date('tgl_masuk');
-            $table->integer('jumlah');
-            $table->timestamps();
-        });
-    }
+        /**
+         * Run the migrations.
+         */
+        public function up(): void
+        {
+            // Schema::create('stok_masuks', function (Blueprint $table) {
+            //     $table->id();
+            //     $table->unsignedBigInteger('kd_produk');
+            //     $table->unsignedBigInteger('kd_supplier');
+            //     $table->date('tgl_masuk');
+            //     $table->integer('jumlah');
+            //     $table->timestamps();
+            // });
+        }
 
-    /**
-     * Reverse the migrations.
-     */
-    public function down(): void
-    {
-        Schema::dropIfExists('stok_masuks');
-    }
-};
+        /**
+         * Reverse the migrations.
+         */
+        public function down(): void
+        {
+            Schema::dropIfExists('stok_masuks');
+        }
+    };

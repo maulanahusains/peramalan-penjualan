@@ -42,13 +42,6 @@ class ProdukController extends Controller
                 ->withErrors($validator->errors());
         }
 
-        if ($request->hasFile('photo')) {
-            $photo = $request->file('photo');
-            $photo_name = Str::uuid() . '_' . $photo->getClientOriginalName();
-            $photo->move(public_path('images/uploads'), $photo_name);
-            $photo_path = 'images/upload/s' . $photo_name;
-        }
-
         DB::beginTransaction();
         try {
             // todo: nambah bulan & minggu ketika create
@@ -56,7 +49,6 @@ class ProdukController extends Controller
             $produk->kd_supplier = $request->supplier;
             $produk->nama_produk = $request->nama_produk;
             $produk->deskripsi = $request->deskripsi;
-            $produk->photo = (isset($photo_path)) ? $photo_path : '';
             $produk->harga = str_replace(",", "", $request->harga);
             $produk->save();
 
@@ -114,23 +106,11 @@ class ProdukController extends Controller
                 ->withErrors($validator->errors());
         }
 
-        if ($request->hasFile('photo')) {
-            if ($produk->photo && Storage::exists($produk->photo)) {
-                Storage::delete($produk->photo);
-            }
-
-            $photo = $request->file('photo');
-            $photo_name = Str::uuid() . '_' . $photo->getClientOriginalName();
-            $photo->move(public_path('images/upload'), $photo_name);
-            $photo_path = 'images/upload/' . $photo_name;
-        }
-
         DB::beginTransaction();
         try {
             $produk->nama_produk = $request->nama_produk;
             $produk->kd_supplier = $request->supplier;
             $produk->deskripsi = $request->deskripsi;
-            $produk->photo = (isset($photo_path)) ? $photo_path : $produk->photo;
             $produk->harga = str_replace(",", "", $request->harga);
             $produk->save();
 

@@ -13,7 +13,13 @@ return new class extends Migration
     {
         Schema::create('peramalans', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('kd_produk');
+            $table->string('bulan');
+            $table->integer('minggu');
+            $table->bigInteger('ramalan');
             $table->timestamps();
+
+            $table->foreign('kd_produk')->references('id')->on('produks')->onDelete('cascade');
         });
     }
 

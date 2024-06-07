@@ -16,11 +16,12 @@ return new class extends Migration
             $table->unsignedBigInteger('kd_supplier');
             $table->string('nama_produk', 100);
             $table->text('deskripsi');
-            $table->string('photo', 200)->nullable();
             $table->char('bulan', 10)->nullable();
             $table->integer('minggu')->nullable();
             $table->bigInteger('harga');
             $table->timestamps();
+
+            $table->foreign('kd_supplier')->references('id')->on('suppliers')->onDelete('cascade');
         });
     }
 

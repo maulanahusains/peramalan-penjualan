@@ -19,7 +19,11 @@ return new class extends Migration
             $table->date('tgl_pembelian');
             $table->integer('minggu');
             $table->string('bulan');
+            $table->unsignedBigInteger('created_by');
             $table->timestamps();
+
+            $table->foreign('kd_produk')->references('id')->on('produks')->onDelete('cascade');
+            $table->foreign('created_by')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

@@ -7,6 +7,7 @@ use App\Models\Produk;
 use App\Models\Stok;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
@@ -107,6 +108,7 @@ class PenjualanController extends Controller
             $penjualan->jumlah_penjualan = $request->jumlah_penjualan;
             $penjualan->minggu = (isset($minggu)) ? $minggu : $request->minggu;
             $penjualan->bulan = $bulan;
+            $penjualan->created_by = Auth::User()->id;
             $penjualan->save();
 
             $stok = Stok::where('kd_produk', $penjualan->kd_produk)->first();

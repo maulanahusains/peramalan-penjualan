@@ -18,7 +18,11 @@ return new class extends Migration
             $table->integer('jumlah_penjualan');
             $table->char('bulan', 10);
             $table->integer('minggu');
+            $table->unsignedBigInteger('created_by');
             $table->timestamps();
+
+            $table->foreign('created_by')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('kd_produk')->references('id')->on('produks')->onDelete('cascade');
         });
     }
 

@@ -77,7 +77,7 @@
                             <label for="">Supplier</label>
                             <select name="supplier" id="" class="form-control">
                                 @foreach ($supplier as $item)
-                                    <option value="{{$item->id}}">{{$item->nama_supplier}}</option>
+                                    <option value="{{ $item->id }}">{{ $item->nama_supplier }}</option>
                                 @endforeach
                             </select>
                             @error('supplier')
@@ -88,13 +88,6 @@
                             <label for="">Deskripsi</label>
                             <input type="text" name="deskripsi" class="form-control" placeholder="Masukkan Data!">
                             @error('deskripsi')
-                                <span class="text-danger">{{ $message }}</span>
-                            @enderror
-                        </div>
-                        <div class="form-group">
-                            <label for="">Photo</label>
-                            <input type="file" name="photo" class="form-control" placeholder="Masukkan Data!">
-                            @error('photo')
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
                         </div>
